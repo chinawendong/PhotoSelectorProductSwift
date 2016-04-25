@@ -10,23 +10,24 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var image: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.view.backgroundColor = UIColor.groupTableViewBackgroundColor()
 //        self.view.addSubview(popView)
-
-        
+        PopUpView.manager.getSelectImage { (selectImage) in
+            self.image.image = selectImage
+        }
+        PopUpView.manager.getSelectImages { (selectImage) in
+            print("\(selectImage)")
+        }
         
         
     }
     @IBAction func show(sender: AnyObject) {
         PopUpView.show()
-        PopUpView.manager.getSelectIndex { (selectIdx) in
-            print("\(selectIdx)")
-            PhotoAlbumMamager.sharedInstance.pushPhotoViewController(self.view)
-            PopUpView.dismiss()
-        }
+
     }
 
     @IBAction func dismiss(sender: AnyObject) {

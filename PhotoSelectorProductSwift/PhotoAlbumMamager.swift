@@ -83,15 +83,14 @@ class PhotoAlbumMamager: NSObject {
         
         nav.navigationBar.tintColor = UIColor.whiteColor()
         
-        let viewController = self.getParentViewController(parentView)
-        viewController.presentViewController(nav, animated: true, completion: nil)
+        let viewController = parentView.window?.rootViewController
+        viewController!.presentViewController(nav, animated: true, completion: nil)
     }
     
     func getParentViewController(parentView : UIView) -> UIViewController {
         var nextResponder = parentView.nextResponder()
         while !nextResponder!.isKindOfClass(UIViewController) {
             nextResponder = nextResponder!.nextResponder()
-            print("\(nextResponder)")
         }
         return (nextResponder as! UIViewController)
     }

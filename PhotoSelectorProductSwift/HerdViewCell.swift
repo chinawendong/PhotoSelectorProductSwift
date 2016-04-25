@@ -41,6 +41,13 @@ class HerdViewCell: UITableViewCell, HerdCollectionViewFlowLayoutDelegate,UIColl
         return item
     }
     
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let asset = photoArray[indexPath.row] as! ALAsset
+        let image = UIImage.init(CGImage: asset.aspectRatioThumbnail().takeUnretainedValue())
+        PopUpView.manager.selectBlock?(selectImage: image)
+        PopUpView.manager.dissmiss()
+    }
+    
     class func HerdViewCells(tableView : UITableView, indexPath: NSIndexPath, identifier : String) -> HerdViewCell {
         let cell = (tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! HerdViewCell)
         let photo = PhotoAlbumMamager.sharedInstance

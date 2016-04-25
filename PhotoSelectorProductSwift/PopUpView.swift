@@ -10,14 +10,21 @@ import UIKit
 
 import AssetsLibrary
 
-typealias SelectBlock = (selectIdx : Int)->Void
+typealias SelectBlock = (selectImage : UIImage)->Void
+typealias SelectImagesBlock = (selectImages : [AnyObject])->Void
 
-class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource , UIGestureRecognizerDelegate {
+class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource , UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
     var tableView : UITableView?
     let titleArray = ["拍照", "从相册中选择","取消"]
     static let manager = PopUpView.init(frame: UIScreen.mainScreen().bounds)
     var photoArray = [AnyObject]()
+    
+    //单张选择
     var selectBlock : SelectBlock?
+    //多张张选择
+    var selectImagesBlock : SelectImagesBlock?
+    
+    let picker: UIImagePickerController = UIImagePickerController()
     
     private override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,11 +42,6 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource , UIGestureR
         
         self.addSubview(self.tableView!)
         
-        let tap = UITapGestureRecognizer.init(target: self, action: #selector(dissmiss))
-        
-        tap.delegate = self
-        self.addGestureRecognizer(tap)
-
         tableView!.translatesAutoresizingMaskIntoConstraints = false
         let leftConstraint = NSLayoutConstraint(item: tableView!,
                                                 attribute: .Right,
@@ -75,12 +77,8 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource , UIGestureR
         
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        print("\(gestureRecognizer) \(otherGestureRecognizer)")
-        if otherGestureRecognizer.isKindOfClass(UITapGestureRecognizer) {
-            return false
-        }
-        return true
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,14 +102,45 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource , UIGestureR
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        if indexPath.row != 0 {
-            self.selectBlock?(selectIdx: indexPath.row - 1)
+        switch indexPath.row {
+        case 1: //相机
+            self.goCamera()
+        case 2: //相册
+            PhotoAlbumMamager.sharedInstance.pushPhotoViewController(self)
+        default: break
+            
         }
+        self.dissmiss()
     }
     
-    func getSelectIndex(selectBlock : SelectBlock?) -> Void {
+    func goCamera(){
+        
+        //先设定sourceType为相机，然后判断相机是否可用（ipod）没相机，不可用将sourceType设定为相片库
+        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+            let picker = UIImagePickerController()
+            picker.sourceType = .Camera
+            picker.delegate = self
+            self.dissmiss()
+            self.window!.rootViewController!.presentViewController(picker, animated: true, completion: nil)
+        }else {
+            let alerview = UIAlertView.init(title: "提示", message: "相机不可用", delegate: nil, cancelButtonTitle: nil)
+            alerview.show()
+        }
+        
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        print("\(info)")
+        self.selectBlock?(selectImage: info[UIImagePickerControllerOriginalImage] as! UIImage)
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func getSelectImage(selectBlock : SelectBlock?) -> Void {
         self.selectBlock = selectBlock
+    }
+    
+    func getSelectImages(selectBlock : SelectImagesBlock?) -> Void {
+        self.selectImagesBlock = selectBlock
     }
     
     class func show() {
@@ -125,7 +154,6 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource , UIGestureR
             view.alpha = 1
             view.tableView!.transform = CGAffineTransformIdentity
         }
-        
     }
     
     func dissmiss() {
@@ -144,9 +172,6 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource , UIGestureR
         let view = PopUpView.manager
         view.dissmiss()
         
-    }
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     /*

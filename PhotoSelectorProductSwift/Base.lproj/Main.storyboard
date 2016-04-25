@@ -31,10 +31,16 @@
                                     <action selector="show:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fjD-rE-rsg"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="udA-1I-O6G">
+                                <rect key="frame" x="81" y="165" width="240" height="128"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="DjU-5F-r9u"/>
+                    <connections>
+                        <outlet property="image" destination="udA-1I-O6G" id="Q6b-9L-fUB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
