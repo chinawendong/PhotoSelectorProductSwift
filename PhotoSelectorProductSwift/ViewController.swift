@@ -24,8 +24,7 @@ class ViewController: UIViewController {
         PopUpView.show()
         PopUpView.manager.getSelectIndex { (selectIdx) in
             print("\(selectIdx)")
-            let p = UINavigationController.init(rootViewController: PhotoGroupViewController())
-            self.presentViewController(p, animated: true, completion: nil)
+            PhotoAlbumMamager.sharedInstance.pushPhotoViewController(self.view)
             PopUpView.dismiss()
         }
     }

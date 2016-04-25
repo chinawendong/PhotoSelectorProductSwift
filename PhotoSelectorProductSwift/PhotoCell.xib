@@ -13,7 +13,7 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                 <subviews>
-                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="u=2424215323,4038435948&amp;fm=21&amp;gp=0" translatesAutoresizingMaskIntoConstraints="NO" id="09t-Z1-ZXt">
+                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="u=2424215323,4038435948&amp;fm=21&amp;gp=0" translatesAutoresizingMaskIntoConstraints="NO" id="09t-Z1-ZXt">
                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                     </imageView>
                 </subviews>

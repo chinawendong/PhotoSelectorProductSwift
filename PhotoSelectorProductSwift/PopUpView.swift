@@ -12,7 +12,7 @@ import AssetsLibrary
 
 typealias SelectBlock = (selectIdx : Int)->Void
 
-class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource {
+class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource , UIGestureRecognizerDelegate {
     var tableView : UITableView?
     let titleArray = ["拍照", "从相册中选择","取消"]
     static let manager = PopUpView.init(frame: UIScreen.mainScreen().bounds)
@@ -24,7 +24,7 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.backgroundColor = UIColor.init(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.3)
         self.tableView = UITableView.init(frame: frame, style: UITableViewStyle.Plain)
         tableView!.delegate = self;
-       tableView!.dataSource = self;
+        tableView!.dataSource = self;
         tableView!.registerNib(UINib.init(nibName: "HerdViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableView!.registerNib(UINib.init(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: "buttonCell")
         tableView!.showsVerticalScrollIndicator = false
@@ -33,12 +33,13 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource {
         tableView!.bounces = false
         tableView!.contentInset = UIEdgeInsetsMake(2, 0, 0, 0)
         
-        
-        let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dissmiss))
-        
-//        self.addGestureRecognizer(tap)
-        
         self.addSubview(self.tableView!)
+        
+        let tap = UITapGestureRecognizer.init(target: self, action: #selector(dissmiss))
+        
+        tap.delegate = self
+        self.addGestureRecognizer(tap)
+
         tableView!.translatesAutoresizingMaskIntoConstraints = false
         let leftConstraint = NSLayoutConstraint(item: tableView!,
                                                 attribute: .Right,
@@ -56,22 +57,30 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource {
                                                   multiplier: 1,
                                                   constant: 0.0)
         let rigthConstraint = NSLayoutConstraint(item: tableView!,
-                                                  attribute: .Left,
-                                                  relatedBy: .Equal,
-                                                  toItem: self,
-                                                  attribute: .Left,
-                                                  multiplier: 1,
-                                                  constant: 0.0)
-        let heightConstraint = NSLayoutConstraint(item: tableView!,
-                                                 attribute: .Height,
+                                                 attribute: .Left,
                                                  relatedBy: .Equal,
-                                                 toItem: nil,
-                                                 attribute: .NotAnAttribute,
+                                                 toItem: self,
+                                                 attribute: .Left,
                                                  multiplier: 1,
-                                                 constant: 204)
+                                                 constant: 0.0)
+        let heightConstraint = NSLayoutConstraint(item: tableView!,
+                                                  attribute: .Height,
+                                                  relatedBy: .Equal,
+                                                  toItem: nil,
+                                                  attribute: .NotAnAttribute,
+                                                  multiplier: 1,
+                                                  constant: 204)
         
         self.addConstraints([rigthConstraint,leftConstraint,bottomConstraint,heightConstraint])
- 
+        
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        print("\(gestureRecognizer) \(otherGestureRecognizer)")
+        if otherGestureRecognizer.isKindOfClass(UITapGestureRecognizer) {
+            return false
+        }
+        return true
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -95,7 +104,6 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
         
         if indexPath.row != 0 {
             self.selectBlock?(selectIdx: indexPath.row - 1)
@@ -121,7 +129,6 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func dissmiss() {
-        
         let view = PopUpView.manager
         UIView.animateWithDuration(0.2, animations: {
             view.alpha = 0
@@ -131,15 +138,11 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource {
         }
         
     }
+    
     class func dismiss() {
         
         let view = PopUpView.manager
-        UIView.animateWithDuration(0.2, animations: {
-            view.alpha = 0
-            view.tableView!.transform = CGAffineTransformMakeTranslation(0, 204)
-            }) { (f) in
-                view.removeFromSuperview()
-        }
+        view.dissmiss()
         
     }
     required init?(coder aDecoder: NSCoder) {

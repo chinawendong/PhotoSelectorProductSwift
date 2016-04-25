@@ -10,30 +10,42 @@ import UIKit
 
 import AssetsLibrary
 
-private let reuseIdentifier = "cell"
+private let reuseIdentifier = "photoCell"
 
 class PhotoCollectionViewController: UICollectionViewController , UICollectionViewDelegateFlowLayout {
-
+    
     var group : ALAssetsGroup?
-    
-    
-    var itemArray : [AnyObject]?
-    
+    var itemArray = [AnyObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        self.collectionView!.backgroundColor = UIColor.whiteColor()
         // Register cell classes
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        PhotoAlbumMamager.sharedInstance.getAssetArrayWithGroup(self.group) { (array) in
-            self.itemArray! = array
-            self.collectionView?.reloadData()
+        self.collectionView!.registerNib(UINib.init(nibName: "PhotoCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
+        if self.group != nil {
+            self.title = (self.group!.valueForProperty(ALAssetsGroupPropertyName) as! String)
+            PhotoAlbumMamager.sharedInstance.getAssetArrayWithGroup(self.group) { (array) in
+                self.itemArray = array
+                self.collectionView?.reloadData()
+            }
+        }else {
+            self.title = "相机胶卷"
+            PhotoAlbumMamager.sharedInstance.getCameraFilm({ (array) in
+                self.itemArray = array
+                self.collectionView?.reloadData()
+            })
         }
+        
+   self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.dissmiss))
 
         // Do any additional setup after loading the view.
+    }
+    
+    func dissmiss() {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,22 +68,24 @@ class PhotoCollectionViewController: UICollectionViewController , UICollectionVi
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return (itemArray?.count)!
+
+        return (itemArray.count)
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
+        let cell = (collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! PhotoCell)
     
-        // Configure the cell
-        cell.backgroundColor = UIColor.redColor()
+        let asset = itemArray[indexPath.row] as! ALAsset
+        cell.photoImage.image = UIImage.init(CGImage: asset.aspectRatioThumbnail().takeUnretainedValue())
+        
         return cell
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(50, 50)
+        return CGSizeMake((CGRectGetWidth((self.collectionView?.bounds)!) - 3) / 4, (CGRectGetWidth((self.collectionView?.bounds)!) - 3) / 4)
     }
 
-    // MARK: UICollectionViewDelegate
+//     MARK: UICollectionViewDelegate
 
     /*
     // Uncomment this method to specify if the specified item should be highlighted during tracking

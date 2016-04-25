@@ -19,14 +19,13 @@ class PhotoAlbumMamager: NSObject {
     
     var groupArray = [ALAssetsGroup]()
     
-//    var reloadGroupArrayBlock : ReloadGroupArrayBlock?
-    
     override init() {
         super.init()
         
      }
     
     func getAlbumGroups(reloadGroupArrayBlock : ReloadGroupArrayBlock?, reloadGroupArrayErrorBlock : ReloadGroupArrayErrorBlock?) -> Void {
+        self.groupArray.removeAll()
         self.assetsLibrary.enumerateGroupsWithTypes(ALAssetsGroupAll, usingBlock: { (group, stop) in
             if (group != nil && group.numberOfAssets() != 0)  {
                 
@@ -70,4 +69,31 @@ class PhotoAlbumMamager: NSObject {
             }
         })
     }
+    func pushPhotoViewController(parentView : UIView) {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = 1
+        flowLayout.minimumInteritemSpacing = 1
+        let photoItem = PhotoCollectionViewController(collectionViewLayout : flowLayout)
+        let photoGroup = PhotoGroupViewController()
+        
+        let nav = UINavigationController.init(rootViewController: photoGroup)
+        nav.navigationBar.barStyle = UIBarStyle.Black
+        
+        nav.setViewControllers([photoGroup,photoItem], animated: true)
+        
+        nav.navigationBar.tintColor = UIColor.whiteColor()
+        
+        let viewController = self.getParentViewController(parentView)
+        viewController.presentViewController(nav, animated: true, completion: nil)
+    }
+    
+    func getParentViewController(parentView : UIView) -> UIViewController {
+        var nextResponder = parentView.nextResponder()
+        while !nextResponder!.isKindOfClass(UIViewController) {
+            nextResponder = nextResponder!.nextResponder()
+            print("\(nextResponder)")
+        }
+        return (nextResponder as! UIViewController)
+    }
+    
 }

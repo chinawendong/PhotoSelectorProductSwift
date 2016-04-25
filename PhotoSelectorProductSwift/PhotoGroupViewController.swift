@@ -20,13 +20,22 @@ class PhotoGroupViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.title = "相册"
+        
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         
         PhotoAlbumMamager.sharedInstance.getAlbumGroups({ (array) in
             self.tableView.reloadData()
             }, reloadGroupArrayErrorBlock: nil)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.dissmiss))
+        
+        // Do any additional setup after loading the view.
     }
-
+    
+    func dissmiss() {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -35,7 +44,6 @@ class PhotoGroupViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return PhotoAlbumMamager.sharedInstance.groupArray.count
     }
 
@@ -48,9 +56,12 @@ class PhotoGroupViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let p = (UIStoryboard.init(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PhotoCollectionViewController") as! PhotoCollectionViewController)
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = 1
+        flowLayout.minimumInteritemSpacing = 1
+        let p = PhotoCollectionViewController(collectionViewLayout : flowLayout)
         p.group = PhotoAlbumMamager.sharedInstance.groupArray[indexPath.row]
-        self.presentViewController(p, animated: true, completion: nil)
+        self.navigationController?.pushViewController(p, animated: true)
     }
 
     /*
