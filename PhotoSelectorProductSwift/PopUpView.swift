@@ -137,10 +137,12 @@ class PopUpView: UIView, UITableViewDelegate, UITableViewDataSource , UIGestureR
     
     func getSelectImage(selectBlock : SelectBlock?) -> Void {
         self.selectBlock = selectBlock
+        dissmiss()
     }
     
     func getSelectImages(selectBlock : SelectImagesBlock?) -> Void {
         self.selectImagesBlock = selectBlock
+        dissmiss()
     }
     
     class func show() {

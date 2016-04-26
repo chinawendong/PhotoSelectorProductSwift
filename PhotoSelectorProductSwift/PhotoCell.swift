@@ -8,6 +8,8 @@
 
 import UIKit
 
+import AssetsLibrary
+
 class PhotoCell: UICollectionViewCell {
 
     @IBOutlet weak var photoImage: UIImageView!
@@ -15,5 +17,9 @@ class PhotoCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    class func collectionViewCell(collectionView : UICollectionView, indexPath: NSIndexPath, asset : ALAsset) -> PhotoCell {
+        let item = (collectionView.dequeueReusableCellWithReuseIdentifier("photoCell", forIndexPath: indexPath) as! PhotoCell)
+        item.photoImage.image = UIImage.init(CGImage: asset.aspectRatioThumbnail().takeUnretainedValue())
+        return item
+    }
 }

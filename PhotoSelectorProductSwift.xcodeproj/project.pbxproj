@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		730A8B261CCA28E800128D8B /* PhotoGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730A8B251CCA28E800128D8B /* PhotoGroupViewController.swift */; };
 		730A8B281CCA2F1B00128D8B /* PhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730A8B271CCA2F1B00128D8B /* PhotoCollectionViewController.swift */; };
+		734785001CCF011200C4DC3C /* PhotoBrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734784FF1CCF011200C4DC3C /* PhotoBrowseViewController.swift */; };
+		734785021CCF06BD00C4DC3C /* BrowseCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734785011CCF06BD00C4DC3C /* BrowseCollectionViewLayout.swift */; };
+		734785051CCF083200C4DC3C /* BrowseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734785031CCF083200C4DC3C /* BrowseCell.swift */; };
+		734785061CCF083200C4DC3C /* BrowseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 734785041CCF083200C4DC3C /* BrowseCell.xib */; };
 		7351F0441CC9BB4D00D458FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7351F0431CC9BB4D00D458FA /* AppDelegate.swift */; };
 		7351F0461CC9BB4D00D458FA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7351F0451CC9BB4D00D458FA /* ViewController.swift */; };
 		7351F0491CC9BB4D00D458FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7351F0471CC9BB4D00D458FA /* Main.storyboard */; };
@@ -31,6 +35,10 @@
 /* Begin PBXFileReference section */
 		730A8B251CCA28E800128D8B /* PhotoGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoGroupViewController.swift; sourceTree = "<group>"; };
 		730A8B271CCA2F1B00128D8B /* PhotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewController.swift; sourceTree = "<group>"; };
+		734784FF1CCF011200C4DC3C /* PhotoBrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoBrowseViewController.swift; sourceTree = "<group>"; };
+		734785011CCF06BD00C4DC3C /* BrowseCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseCollectionViewLayout.swift; sourceTree = "<group>"; };
+		734785031CCF083200C4DC3C /* BrowseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseCell.swift; sourceTree = "<group>"; };
+		734785041CCF083200C4DC3C /* BrowseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseCell.xib; sourceTree = "<group>"; };
 		7351F0401CC9BB4D00D458FA /* PhotoSelectorProductSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoSelectorProductSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7351F0431CC9BB4D00D458FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7351F0451CC9BB4D00D458FA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +103,10 @@
 				730A8B271CCA2F1B00128D8B /* PhotoCollectionViewController.swift */,
 				73EA1EFF1CCA05E100EF10DB /* ButtonCell.swift */,
 				73E05CD91CCE168900293087 /* GroupPhotoCell.swift */,
+				734784FF1CCF011200C4DC3C /* PhotoBrowseViewController.swift */,
+				734785011CCF06BD00C4DC3C /* BrowseCollectionViewLayout.swift */,
+				734785031CCF083200C4DC3C /* BrowseCell.swift */,
+				734785041CCF083200C4DC3C /* BrowseCell.xib */,
 				73E05CDA1CCE168900293087 /* GroupPhotoCell.xib */,
 				73EA1F001CCA05E100EF10DB /* ButtonCell.xib */,
 				7351F0581CC9BE1A00D458FA /* HerdViewCell.xib */,
@@ -167,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7351F04E1CC9BB4D00D458FA /* LaunchScreen.storyboard in Resources */,
+				734785061CCF083200C4DC3C /* BrowseCell.xib in Resources */,
 				7351F04B1CC9BB4D00D458FA /* Assets.xcassets in Resources */,
 				7351F0491CC9BB4D00D458FA /* Main.storyboard in Resources */,
 				73EA1F021CCA05E100EF10DB /* ButtonCell.xib in Resources */,
@@ -187,11 +200,14 @@
 				73EA1EFE1CC9CE9C00EF10DB /* PhotoAlbumMamager.swift in Sources */,
 				730A8B261CCA28E800128D8B /* PhotoGroupViewController.swift in Sources */,
 				7351F0561CC9BB8300D458FA /* PopUpView.swift in Sources */,
+				734785021CCF06BD00C4DC3C /* BrowseCollectionViewLayout.swift in Sources */,
 				7351F0461CC9BB4D00D458FA /* ViewController.swift in Sources */,
 				730A8B281CCA2F1B00128D8B /* PhotoCollectionViewController.swift in Sources */,
 				7351F0441CC9BB4D00D458FA /* AppDelegate.swift in Sources */,
 				73EA1EF91CC9CC9F00EF10DB /* PhotoCell.swift in Sources */,
+				734785051CCF083200C4DC3C /* BrowseCell.swift in Sources */,
 				73E05CDB1CCE168900293087 /* GroupPhotoCell.swift in Sources */,
+				734785001CCF011200C4DC3C /* PhotoBrowseViewController.swift in Sources */,
 				7351F0591CC9BE1A00D458FA /* HerdViewCell.swift in Sources */,
 				73EA1F011CCA05E100EF10DB /* ButtonCell.swift in Sources */,
 			);

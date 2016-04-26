@@ -150,7 +150,19 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
+        let flowLayout = BrowseCollectionViewLayout()
+
+        let beowseView = PhotoBrowseViewController(collectionViewLayout : flowLayout)
+        flowLayout.collectionDelegate = beowseView
+        beowseView.selectArray = self.selectArray
+        beowseView.itemArray = self.itemArray
+        beowseView.selectIndx = indexPath
+        beowseView.getSelectChange { (array) in
+            self.selectArray = array
+            self.collectionView?.reloadData()
+            self.cententButton!.title = "\(self.selectArray.count)"
+        }
+        self.navigationController?.pushViewController(beowseView, animated: true)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -159,6 +171,7 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
     
     func sendSelectImage() {
         PopUpView.manager.selectImagesBlock!(selectImages: self.getSelectImages() )
+        self.dissmiss()
     }
     
     func getSelectImages() -> [AnyObject] {

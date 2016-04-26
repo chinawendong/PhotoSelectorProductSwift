@@ -21,7 +21,6 @@ class HerdViewCell: UITableViewCell, HerdCollectionViewFlowLayoutDelegate,UIColl
        let collectionViewLayout = (self.collectionView.collectionViewLayout as! HerdCollectionViewFlowLayout)
         collectionViewLayout.collectionDelegate = self
         collectionView.registerNib(UINib.init(nibName: "PhotoCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
-    
     }
     
     func collectionView(row: Int) -> CGSize {
@@ -35,10 +34,7 @@ class HerdViewCell: UITableViewCell, HerdCollectionViewFlowLayoutDelegate,UIColl
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let item = (collectionView.dequeueReusableCellWithReuseIdentifier("photoCell", forIndexPath: indexPath) as! PhotoCell)
-        let asset = photoArray[indexPath.row] as! ALAsset
-        item.photoImage.image = UIImage.init(CGImage: asset.aspectRatioThumbnail().takeUnretainedValue())
-        return item
+        return PhotoCell.collectionViewCell(collectionView, indexPath: indexPath, asset: (photoArray[indexPath.row] as! ALAsset))
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
