@@ -42,7 +42,7 @@ class PhotoAlbumMamager: NSObject {
     func getCameraFilm(reloadCameraFilmArrayBlock:ReloadCameraFilmArrayBlock?) {
             getAlbumGroups({ (array) in
                 for group in (array as [ALAssetsGroup]){
-                    if group.valueForProperty(ALAssetsGroupPropertyName).isEqualToString("相机胶卷") {
+                    if group.valueForProperty(ALAssetsGroupPropertyType).integerValue == 16 {
                         
                         var cameraFilmArray = [ALAsset]()
                         

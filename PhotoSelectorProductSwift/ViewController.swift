@@ -26,8 +26,13 @@ class ViewController: UIViewController {
         
     }
     @IBAction func show(sender: AnyObject) {
-        PopUpView.show()
-
+//        PopUpView.show()
+        let url = NSURL.init(string: UIApplicationOpenSettingsURLString)
+        
+        if UIApplication.sharedApplication().canOpenURL(url!) {
+//            let url = NSURL.init(string: UIApplicationOpenSettingsURLString)
+            UIApplication.sharedApplication().openURL(url!)
+        }
     }
 
     @IBAction func dismiss(sender: AnyObject) {
